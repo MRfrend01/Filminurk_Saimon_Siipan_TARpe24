@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Filminurk.Core.Domain
 {
-    internal class Movie
+    public class Movie
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
