@@ -1,9 +1,9 @@
 ﻿@model Filminurk.Models.Movies.MoviesDeleteViewModel
 @{
-    ViewData["Title"] = "loo film";
+    ViewData["Title"] = "Kustuta film";
 }
-<h1 class="text-danger">loo film</h1>
-<h3 class="text-warning">Kas olete kindel, et soovite luua järgmise filmi?</h3>
+<h1 class="text-danger">Kustuta film</h1>
+<h3 class="text-warning">Kas olete kindel, et soovite kustutada järgmise filmi?</h3>
 <div>
     <h4>Film</h4>
     <hr />
@@ -26,6 +26,7 @@
         <dt class="col-sm-2">
             Aasta
         </dt>
+
         <dt class="col-sm-2">
             Kestvus
         </dt>
@@ -36,8 +37,8 @@
             Hind
         </dt>
     </dl>
-    <form asp-action="Create" method="post">
+    <form asp-action="Delete" method="post">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Loo" class="btn btn-danger" /> |
+        <input type="submit" value="Kustuta" class="btn btn-danger" /> |
         <a asp-action="Index" class="btn btn-secondary">Tagasi filmide nimekirja</a>
     </form>
