@@ -20,5 +20,7 @@ namespace Filminurk.Core.Domain
         public int? DurationInMinutes { get; set; }
         public int? PeopleWatched { get; set; }
 
+        public DateTime? EntryCreatedAt { get; set; }
+        public DateTime? EntryModifiedAt { get; set; }
     }
 }

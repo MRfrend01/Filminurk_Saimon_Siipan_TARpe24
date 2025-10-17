@@ -21,7 +21,7 @@ namespace Filminurk.Controllers
             _context = context;
             _movieServices = movieServices;
         }
-        
+        [HttpGet]
         public IActionResult Index()
         {
             var results = _context.Movies.Select(X => new MoviesIndexViewModel
@@ -35,14 +35,15 @@ namespace Filminurk.Controllers
             });
             return View(results);
         }
+        
         [HttpGet]
         public IActionResult Create()
         {
-            MoviesCreateViewModel result = new();
-            return View("Create", result);
+            MoviesCreateUpdateViewModel result = new();
+            return View("CreateUpdate", result);
         }
         [HttpPost]
-        public async Task<IActionResult> Create(MoviesCreateViewModel vm)
+        public async Task<IActionResult> Create(MoviesCreateUpdateViewModel vm)
         {
             var dto = new MoviesDTO()
             {
@@ -65,5 +66,117 @@ namespace Filminurk.Controllers
             return RedirectToAction(nameof(Index));
 
         }
+        [HttpPost]
+        public async Task<IActionResult> Update(MoviesCreateUpdateViewModel vm)
+        {
+            var dto = new MoviesDTO()
+            {
+                ID = vm.Id,
+                Title = vm.Title,
+                Description = vm.Description,
+                FirstPublished = vm.FirstPublished,
+                Director = vm.Director,
+                Actors = vm.Actors,
+                CurrentRating = (double?)vm.CurrentRating,
+                LastWatched = vm.LastWatched,
+                DurationInMinutes = vm.DurationInMinutes,
+                PeopleWatched = vm.PeopleWatched
+            };
+            var result = await _movieServices.Update(dto);
+            if (result == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            var movie = await _movieServices.DetailAsync(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            var vm = new MoviesDetailViewModel();
+            vm.Id = movie.Id;
+            vm.Title = movie.Title;
+            vm.Description = movie.Description;
+            vm.FirstPublished = movie.FirstPublished;
+            vm.CurrentRating = movie.CurrentRating;
+            vm.PeopleWatched = movie.PeopleWatched;
+            vm.LastWatched = movie.LastWatched;
+            vm.DurationInMinutes = movie.DurationInMinutes;
+            vm.EntryCreatedAt = movie.EntryCreatedAt;
+            vm.EntryModifiedAt = movie.EntryModifiedAt;
+            vm.Director = movie.Director;
+            vm.Actors = movie.Actors;
+            return View(vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Update(Guid id)
+        {
+            var movie = await _movieServices.DetailAsync(id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            var vm = new MoviesCreateUpdateViewModel();
+            vm.Id = movie.Id;
+            vm.Title = movie.Title;
+            vm.Description = movie.Description;
+            vm.FirstPublished = movie.FirstPublished;
+            vm.CurrentRating = movie.CurrentRating;
+            vm.PeopleWatched = movie.PeopleWatched;
+            vm.LastWatched = movie.LastWatched;
+            vm.DurationInMinutes = movie.DurationInMinutes;
+            vm.EntryCreatedAt = movie.EntryCreatedAt;
+            vm.EntryModifiedAt = movie.EntryModifiedAt;
+            vm.Director = movie.Director;
+            vm.Actors = movie.Actors;
+
+            return View("CreateUpdate", vm);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var movie = await _movieServices.DetailAsync(id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            var vm = new MoviesDeleteViewModel();
+            vm.Id = movie.Id;
+            vm.Title = movie.Title;
+            vm.Description = movie.Description;
+            vm.FirstPublished = movie.FirstPublished;
+            vm.CurrentRating = movie.CurrentRating;
+            vm.LastWatched = movie.LastWatched;
+            vm.DurationInMinutes = movie.DurationInMinutes;
+            vm.PeopleWatched = movie.PeopleWatched;
+            vm.EntryCreatedAt = movie.EntryCreatedAt;
+            vm.EntryModifiedAt = movie.EntryModifiedAt;
+            vm.Director = movie.Director;
+            vm.Actors = movie.Actors;
+
+            return View(vm);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmation(Guid id)
+        {
+            var movie = await _movieServices.Delete(id);
+            if (movie == null)
+            {
+                return NotFound();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
     }
 }

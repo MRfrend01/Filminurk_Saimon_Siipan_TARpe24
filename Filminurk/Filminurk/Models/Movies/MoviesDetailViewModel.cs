@@ -1,8 +1,8 @@
 ﻿namespace Filminurk.Models.Movies
 {
-    public class MoviesDeleteViewModel
+    public class MoviesDetailViewModel
     {
-            
+
         public Guid? Id { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }

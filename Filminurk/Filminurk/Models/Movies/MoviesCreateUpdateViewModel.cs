@@ -1,6 +1,6 @@
 ﻿namespace Filminurk.model.Domain
 {
-    public class MoviesCreateViewModel
+    public class MoviesCreateUpdateViewModel
     {
         public Guid Id { get; set; }
         public string Title { get; set; }
@@ -14,6 +14,9 @@
         public int? DurationInMinutes { get; set; }
         public int? PeopleWatched { get; set; }
 
+        /* andmebaasi jaoks vajalikud */
+        public DateTime? EntryCreatedAt { get; set; }
+        public DateTime? EntryModifiedAt { get; set; }
     }
 }
 
