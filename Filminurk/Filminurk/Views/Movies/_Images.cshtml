@@ -1,0 +1,13 @@
+﻿@model Filminurk.Models.Movies.ImageViewModel
+@{
+    var photoPath = "~/multipleFileUpload" + (Model.Filepath ?? "noimage.jpg");
+}
+    <div class="form-group row col-sm-4 offset-2">
+        <div>
+            @Model.Filepath
+        </div>
+        <div>
+        <img src="@Url.Content(photoPath)" alt="Movie Image" style="max-width: 200px; max-height: 200px;" />
+
+</div>
+

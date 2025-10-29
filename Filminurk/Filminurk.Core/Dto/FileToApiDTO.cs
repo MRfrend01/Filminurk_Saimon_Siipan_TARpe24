@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace Filminurk.Core.Dto
 {
-    internal class FileTOa
+    public class FileToApiDTO
     {
+        public Guid ImageID { get; set; }
+
+        public string? Filepath { get; set; }
+        public Guid? MovieID { get; set; }
+        public bool? IsPoster { get; set; }
+
     }
 }

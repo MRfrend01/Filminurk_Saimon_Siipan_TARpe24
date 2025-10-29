@@ -1,6 +1,8 @@
 ﻿using Filminurk.Core.Domain;
 using Filminurk.Core.Dto;
+using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Filminurk.ApplicationServices.Services
 {
-    public class FileServices : IFileServices
+    public class FileServices : IFilesServices
     {
         private readonly IHostEnvironment _webhost;
         private readonly FilminurkTarpe24Context _context;
@@ -21,7 +23,10 @@ namespace Filminurk.ApplicationServices.Services
             _webhost = webhost;
             _context = context;
         }
-        public void FileUpload(MoviesDTO dto, Movie domain)
+
+
+
+        public void FilesToApi(MoviesDTO dto, Movie domain)
         {
             if (dto.Files != null && dto.Files.Count > 0)
             {
@@ -44,12 +49,37 @@ namespace Filminurk.ApplicationServices.Services
                             ImageID = Guid.NewGuid(),
                             ExistingFilepath = uniqueFileName,
                             MovieID = domain.Id,
-                           
+
                         };
-                        _context.FileToApis.AddAsync(path);
+                        _context.FilesToApi.AddAsync(path);
                     }
                 }
             }
         }
+
+        public async Task<FileToApi> RemoveImageFromApi(FileToApiDTO dto)
+        {
+            var imageID = await _context.FilesToApi.FirstOrDefaultAsync(x => x.ImageID == dto.ImageID);
+
+            var filePath = _webhost.ContentRootPath + "\\wwwroot\\multipleFileUpload" + imageID.ExistingFilepath;
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+            _context.FilesToApi.Remove(imageID);
+            await _context.SaveChangesAsync();
+
+            return null;
+        }
+        public async Task<List<FileToApi>> RemoveImagesFromApi(FileToApiDTO[] dtos)
+        {
+            foreach (var dto in dtos)
+            {
+                RemoveImageFromApi(dto);
+            }
+            return null;
+        }
     }
 }
+
+

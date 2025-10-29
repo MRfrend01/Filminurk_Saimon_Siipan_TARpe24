@@ -8,8 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IMovieServices, MovieServices>();
+builder.Services.AddScoped<IFilesServices, FileServices>();
 builder.Services.AddDbContext<FilminurkTarpe24Context>(Options => Options.UseSqlServer
 (builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 
 var app = builder.Build();

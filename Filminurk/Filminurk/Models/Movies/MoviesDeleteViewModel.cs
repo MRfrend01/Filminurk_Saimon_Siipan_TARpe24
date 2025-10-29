@@ -11,6 +11,8 @@
         public List<string>? Actors { get; set; }
         public decimal? CurrentRating { get; set; }
         //public List<UserComment> Reviews { get; set; }
+
+        public List<ImageViewModel>? Images { get; set; } = new List<ImageViewModel>();
         public DateTime? LastWatched { get; set; }
         public int? DurationInMinutes { get; set; }
         public int? PeopleWatched { get; set; }

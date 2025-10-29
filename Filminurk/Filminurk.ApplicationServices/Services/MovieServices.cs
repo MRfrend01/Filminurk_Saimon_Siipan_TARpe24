@@ -15,11 +15,12 @@ namespace Filminurk.ApplicationServices.Services
     public class MovieServices : IMovieServices
     {
         private readonly FilminurkTarpe24Context _context;
-    
-    public MovieServices(FilminurkTarpe24Context context)
+        private readonly IFilesServices _filesServices;
+
+        public MovieServices(FilminurkTarpe24Context context, IFilesServices filesServices)
         {
             _context = context;
-
+            _filesServices = filesServices;
         }
 
         public async Task<Movie> Create(MoviesDTO dto)
@@ -35,6 +36,9 @@ namespace Filminurk.ApplicationServices.Services
             movie.LastWatched = dto.LastWatched;
             movie.DurationInMinutes = dto.DurationInMinutes;
             movie.PeopleWatched = dto.PeopleWatched;
+            movie.EntryCreatedAt = DateTime.Now;
+            movie.EntryModifiedAt = DateTime.Now;
+            _filesServices.FilesToApi(dto, movie);
             
             await _context.Movies.AddAsync(movie);
             await _context.SaveChangesAsync();
@@ -64,6 +68,7 @@ namespace Filminurk.ApplicationServices.Services
             movie.LastWatched = dto.LastWatched;// minu oma
             movie.EntryCreatedAt = dto.EntryCreatedAt;
             movie.EntryModifiedAt = DateTime.Now;
+            _filesServices.FilesToApi(dto, movie);
 
             _context.Movies.Update(movie);
             await _context.SaveChangesAsync();
@@ -76,26 +81,22 @@ namespace Filminurk.ApplicationServices.Services
             var result = await _context.Movies
                 .FirstOrDefaultAsync(m => m.Id == id);
 
+            var images = await _context.FilesToApi
+                .Where(x => x.MovieID == id)
+                .Select(y => new FileToApiDTO
+                {
+                    ImageID = y.ImageID,
+                    Filepath = y.ExistingFilepath,
+                    MovieID = y.MovieID,
+                }).ToArrayAsync();
 
+            await _filesServices.RemoveImagesFromApi(images);
             _context.Movies.Remove(result);
             await _context.SaveChangesAsync();
 
             return result;
         }
 
-        Task<Movie> IMovieServices.Create(MoviesDTO dto)
-        {
-            throw new NotImplementedException();
-        }
 
-        Task<Movie> IMovieServices.Delete(Guid id)
-        {
-            return Delete(id);
-        }
-
-        Task<Movie> IMovieServices.DetailAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

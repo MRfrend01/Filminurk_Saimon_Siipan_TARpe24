@@ -1,9 +1,9 @@
 ﻿using Filminurk.Core.Dto;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
-using Filminurk.model.Domain;
 using Filminurk.Models.Movies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Filminurk.Controllers
 {
@@ -12,14 +12,17 @@ namespace Filminurk.Controllers
         
         private readonly FilminurkTarpe24Context _context;
         private readonly IMovieServices _movieServices;
+        private readonly IFilesServices _filesServices;
         public MoviesController
             (
             FilminurkTarpe24Context context, 
-            IMovieServices movieServices
+            IMovieServices movieServices,
+            IFilesServices filesServices
             )
         {
             _context = context;
             _movieServices = movieServices;
+            _filesServices = filesServices;
         }
         [HttpGet]
         public IActionResult Index()
@@ -56,7 +59,18 @@ namespace Filminurk.Controllers
                 CurrentRating = (double?)vm.CurrentRating,
                 LastWatched = vm.LastWatched,
                 DurationInMinutes = vm.DurationInMinutes,
-                PeopleWatched = vm.PeopleWatched
+                PeopleWatched = vm.PeopleWatched,
+                Files = vm.Files,
+                FileToApiDTOs = vm.Images
+                    .Select(x => new FileToApiDTO
+                    {
+                        ImageID = x.ImageID,
+                        Filepath = x.Filepath,
+                        IsPoster = x.IsPoster,
+                        MovieID = x.MovieID,
+                    }).ToArray()
+
+
             };
             var result = await _movieServices.Create(dto);
             if (result == null)
@@ -80,7 +94,15 @@ namespace Filminurk.Controllers
                 CurrentRating = (double?)vm.CurrentRating,
                 LastWatched = vm.LastWatched,
                 DurationInMinutes = vm.DurationInMinutes,
-                PeopleWatched = vm.PeopleWatched
+                PeopleWatched = vm.PeopleWatched,
+                Files = vm.Files,
+                FileToApiDTOs = vm.Images
+                    .Select(x => new FileToApiDTO
+                    {
+                        ImageID = x.ImageID,
+                        Filepath = x.Filepath,
+                        MovieID = x.MovieID,
+                    }).ToArray()
             };
             var result = await _movieServices.Update(dto);
             if (result == null)
@@ -122,6 +144,14 @@ namespace Filminurk.Controllers
             {
                 return NotFound();
             }
+           
+            var images = await _context.FilesToApi
+                .Where(x => x.MovieID == movie.Id)
+                .Select(y => new ImageViewModel
+                {
+                    ImageID = id,
+                    Filepath = y.ExistingFilepath,
+                }).ToArrayAsync();
 
             var vm = new MoviesCreateUpdateViewModel();
             vm.Id = movie.Id;
@@ -136,6 +166,7 @@ namespace Filminurk.Controllers
             vm.EntryModifiedAt = movie.EntryModifiedAt;
             vm.Director = movie.Director;
             vm.Actors = movie.Actors;
+            vm.Images.AddRange(images);
 
             return View("CreateUpdate", vm);
         }
@@ -150,6 +181,13 @@ namespace Filminurk.Controllers
             {
                 return NotFound();
             }
+            var images = await _context.FilesToApi
+                .Where(x => x.MovieID == movie.Id)
+                .Select(y => new ImageViewModel
+                {
+                    ImageID = id,
+                    Filepath = y.ExistingFilepath,
+                }).ToArrayAsync();
             var vm = new MoviesDeleteViewModel();
             vm.Id = movie.Id;
             vm.Title = movie.Title;
