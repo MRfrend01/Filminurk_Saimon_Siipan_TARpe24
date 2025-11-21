@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IMovieServices, MovieServices>();
 builder.Services.AddScoped<IFilesServices, FileServices>();
+builder.Services.AddScoped<IUserCommentServices, UserCommentServices>();
 builder.Services.AddDbContext<FilminurkTarpe24Context>(Options => Options.UseSqlServer
 (builder.Configuration.GetConnectionString("DefaultConnection")));
 
