@@ -24,24 +24,23 @@ namespace Filminurk.Controllers
 
 
         public IActionResult Index()
-        {
-            var result = _context.Actors
-                .Select(a => new ActorIndexViewModel
-                {
-                    ActorID = a.ActorID,
-                    FirstName = a.FirstName,
-                    LastName = a.LastName,
-                    NickName = a.NickName,
-                    MoviesActedFor = a.MoviesActedFor,
-                    PortraitID = a.PortraitID,
-                    PrimarySpecialization = (ActorSpecialization?)a.PrimarySpecialization,
-                    CareerStartYear = a.CareerStartYear,
-                    DateOfBirth = (DateOnly)a.DateOfBirth,
-
-                }
-            );
-            return View(result);
+            {
+            var actors = _context.Actors.ToList();
+            return View(actors);
         }
+        [HttpPost]
+        public IActionResult Index(string searchString)
+        {
+            var actors = from a in _context.Actors
+                         select a;
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                actors = actors.Where(a => a.FirstName.Contains(searchString) || a.LastName.Contains(searchString));
+            }
+            return View(actors.ToList());
+        }
+
+        
 
         [HttpGet]
         public IActionResult Create()
@@ -51,7 +50,7 @@ namespace Filminurk.Controllers
         }
 
         [HttpPost, ActionName("Create")]
-        public async Task<IActionResult> Create(ActorsCreateViewModel vm)
+        public async Task<IActionResult> CreateUpdate(ActorsCreateViewModel vm)
         {
             if (!ModelState.IsValid) { return NotFound(); }
 
@@ -89,7 +88,7 @@ namespace Filminurk.Controllers
         [HttpPost]
         public async Task<IActionResult> ConfirmDelete(Guid id, IActorServices actorServices)
         {
-            var actor = await actorServices.Delete(id);
+            var actor = await actorServices.DeleteActorAsync(id);
             if (actor == null) { return NotFound(); }
             return RedirectToAction(nameof(Index));
         }
@@ -144,7 +143,7 @@ namespace Filminurk.Controllers
                 CareerStartYear = vm.CareerStartYear,
                 DateOfBirth = vm.DateOfBirth,
             };
-            var actor = await _actorServices.Update(dto);
+            var actor = await _actorServices.UpdateActorAsync(dto);
             if (actor == null) { return NotFound(); }
             return RedirectToAction(nameof(Index));
         }
