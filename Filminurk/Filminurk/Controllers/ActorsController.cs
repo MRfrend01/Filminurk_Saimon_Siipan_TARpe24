@@ -3,6 +3,7 @@ using Filminurk.Core.Dto;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
 using Filminurk.Models.Actors;
+using Filminurk.Models.Movies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,27 +21,17 @@ namespace Filminurk.Controllers
         }
 
         [HttpGet]
-
-
-
         public IActionResult Index()
-            {
-            var actors = _context.Actors.ToList();
-            return View(actors);
-        }
-        [HttpPost]
-        public IActionResult Index(string searchString)
         {
-            var actors = from a in _context.Actors
-                         select a;
-            if (!string.IsNullOrEmpty(searchString))
+            var results = _context.Actors.Select(vm => new ActorIndexViewModel
             {
-                actors = actors.Where(a => a.FirstName.Contains(searchString) || a.LastName.Contains(searchString));
-            }
-            return View(actors.ToList());
+                ActorID = vm.ActorID,
+            });
+            return View(results);
         }
 
-        
+
+
 
         [HttpGet]
         public IActionResult Create()
@@ -62,7 +53,7 @@ namespace Filminurk.Controllers
                 NickName = vm.NickName,
                 MoviesActedFor = vm.MoviesActedFor,
                 PortraitID = vm.PortraitID,
-                PrimarySpecialization = vm.PrimarySpecialization,
+                PrimarySpecialization = (Core.Domain.ActorSpecialization?)vm.PrimarySpecialization,
                 CareerStartYear = vm.CareerStartYear,
                 DateOfBirth = vm.DateOfBirth,
             };
@@ -120,7 +111,7 @@ namespace Filminurk.Controllers
             vm.NickName = actor.NickName;
             vm.MoviesActedFor = actor.MoviesActedFor;
             vm.PortraitID = actor.PortraitID;
-            vm.PrimarySpecialization = (ActorSpecialization?)actor.PrimarySpecialization;
+            vm.PrimarySpecialization = (Models.Actors.ActorSpecialization?)actor.PrimarySpecialization;
             vm.CareerStartYear = actor.CareerStartYear;
             vm.DateOfBirth = (DateOnly)actor.DateOfBirth;
 
@@ -139,7 +130,7 @@ namespace Filminurk.Controllers
                 NickName = vm.NickName,
                 MoviesActedFor = vm.MoviesActedFor,
                 PortraitID = vm.PortraitID,
-                PrimarySpecialization = vm.PrimarySpecialization,
+                PrimarySpecialization = (Core.Domain.ActorSpecialization?)vm.PrimarySpecialization,
                 CareerStartYear = vm.CareerStartYear,
                 DateOfBirth = vm.DateOfBirth,
             };
