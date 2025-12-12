@@ -2,7 +2,7 @@
 
 namespace Filminurk.Models.Actors
 {
-    public class ActorsCreateViewModel
+       public class ActorsCreateViewModel
     {
         public ActorsCreateViewModel() { }
         public Guid ActorID { get; set; }

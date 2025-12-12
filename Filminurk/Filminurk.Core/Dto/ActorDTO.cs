@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Filminurk.Core.Dto
 {
+
     public class ActorDTO
     {
         [Key]

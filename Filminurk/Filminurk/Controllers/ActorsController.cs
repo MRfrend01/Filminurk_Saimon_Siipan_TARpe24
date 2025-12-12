@@ -53,7 +53,6 @@ namespace Filminurk.Controllers
                 NickName = vm.NickName,
                 MoviesActedFor = vm.MoviesActedFor,
                 PortraitID = vm.PortraitID,
-                PrimarySpecialization = (Core.Domain.ActorSpecialization?)vm.PrimarySpecialization,
                 CareerStartYear = vm.CareerStartYear,
                 DateOfBirth = vm.DateOfBirth,
             };
@@ -111,7 +110,7 @@ namespace Filminurk.Controllers
             vm.NickName = actor.NickName;
             vm.MoviesActedFor = actor.MoviesActedFor;
             vm.PortraitID = actor.PortraitID;
-            vm.PrimarySpecialization = (Models.Actors.ActorSpecialization?)actor.PrimarySpecialization;
+            
             vm.CareerStartYear = actor.CareerStartYear;
             vm.DateOfBirth = (DateOnly)actor.DateOfBirth;
 
@@ -130,7 +129,6 @@ namespace Filminurk.Controllers
                 NickName = vm.NickName,
                 MoviesActedFor = vm.MoviesActedFor,
                 PortraitID = vm.PortraitID,
-                PrimarySpecialization = (Core.Domain.ActorSpecialization?)vm.PrimarySpecialization,
                 CareerStartYear = vm.CareerStartYear,
                 DateOfBirth = vm.DateOfBirth,
             };
