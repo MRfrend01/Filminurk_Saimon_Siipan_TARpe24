@@ -1,12 +1,16 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Filminurk.Core.Domain;
+using Filminurk.Core.Dto.AccountsDTOs;
 
 namespace Filminurk.Core.ServiceInterface
 {
-    internal class IAccountServices
+    public interface IAccountServices
     {
+        Task<ApplicationUser> Register(ApplicationUserDTO userDTO);
     }
 }

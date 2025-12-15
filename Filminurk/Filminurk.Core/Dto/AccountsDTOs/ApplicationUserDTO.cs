@@ -16,6 +16,8 @@ namespace Filminurk.Core.Dto.AccountsDTOs
         public List<Guid>? CommentIDs { get; set; }
         public Guid? AvatarImageID { get; set; }
         public string? DisplayName { get; set; }
+        public bool ProfileType { get; set; }
+
 
     }
 }
