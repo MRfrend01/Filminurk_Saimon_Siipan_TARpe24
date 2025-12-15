@@ -1,4 +1,4 @@
-﻿using Filminurk.Core.Domain;
+﻿using Filminurk.ApplicationServices.Services;
 using Filminurk.Core.Dto;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
@@ -10,53 +10,99 @@ namespace Filminurk.Controllers
     public class UserCommentsController : Controller
     {
         private readonly FilminurkTarpe24Context _context;
-        private readonly IUserCommentServices _userCommentServices;
-        public UserCommentsController(FilminurkTarpe24Context context, IUserCommentServices userCommentServices)
+        private readonly IUserCommentServices _userCommentsServices;
+
+        public UserCommentsController(FilminurkTarpe24Context context,
+            IUserCommentServices userCommentsServices
+            )
         {
             _context = context;
-            _userCommentServices = userCommentServices;
+            _userCommentsServices = userCommentsServices;
         }
+
         public IActionResult Index()
         {
-            var results = _context.UserComments
+            var result = _context.UserComments
                 .Select(c => new UserCommentsIndexViewModel
                 {
                     CommentID = c.CommentID,
                     CommentBody = c.CommentBody,
-                    IsHarmful = c.IsHarmful,
+                    IsHarmful = (int)c.IsHarmful,
                     CommentCreatedAt = c.CommentCreatedAt
                 }
             );
-            return NotFound();
+            return View(result);
         }
+
         [HttpGet]
         public IActionResult NewComment()
         {
+            //todo: erista kas tegemist on admini, või tavakasutajaga
             UserCommentsCreateViewModel newcomment = new();
             return View(newcomment);
         }
+
         [HttpPost, ActionName("NewComment")]
         public async Task<IActionResult> NewCommentPost(UserCommentsCreateViewModel newcommentVM)
         {
-            var dto = new UserCommentDTO
-            {
-                CommentID = (Guid)newcommentVM.CommentID,
-                CommenterUserID = newcommentVM.CommenterUserID,
-                CommentBody = newcommentVM.CommentBody,
-                CommentedScore = newcommentVM.CommentedCreatedAt,
-                CommentCreatedAt = newcommentVM.CommentCreatedAt,
-                CommentModifiedAt = newcommentVM.CommentModifiedAt,
-                IsHelpful = (int)newcommentVM.IsHelpful,
-                IsHarmful = (int)newcommentVM.IsHarmful,
-            }; 
-            var result = await _userCommentServices.NewComment(dto);
-            if (result == null)
-            {
-                return NotFound();
-            }
+            newcommentVM.CommenterUserID = "00000000-0000-0000-000000000000";
+            //todo: newcommenti manuaalne seadmine, asenda pärast kasutaja id-ga
+            var dto = new UserCommentDTO() { };
+            dto.CommentID = (Guid)newcommentVM.CommentID;
+            dto.CommentBody = newcommentVM.CommentBody;
+            dto.CommenterUserID = newcommentVM.CommenterUserID;
+            dto.CommentCreatedAt = newcommentVM.CommentCreatedAt;
+            dto.CommentModifiedAt = newcommentVM.CommentModifiedAt;
+            dto.IsHelpful = newcommentVM.IsHelpful;
+            dto.IsHarmful = newcommentVM.IsHarmful;
+
+            var result = await _userCommentsServices.NewComment(dto);
+            if (result == null) { return NotFound(); }
+            // todo: erista ära kas tegu on admini või kasutajaga, admin tagastub
+            // admin-comments-index, kasutaja aga vastava filmi juurde
             return RedirectToAction(nameof(Index));
+            // return RedirectToAction("Details", "Movies", id)
+        }
 
+        [HttpGet]
+        public async Task<IActionResult> DetailsAdmin(Guid id)
+        {
+            var requestedComment = await _userCommentsServices.DetailAsync(id);
+            if (requestedComment == null) { return NotFound(); }
+            var commentVM = new UserCommentsIndexViewModel();
+            commentVM.CommentID = requestedComment.CommentID;
+            commentVM.CommentBody = requestedComment.CommentBody;
+            commentVM.CommenterUserID = requestedComment.CommenterUserID;
+            commentVM.CommentedScore = requestedComment.CommentedScore;
+            commentVM.CommentCreatedAt = requestedComment.CommentCreatedAt;
+            commentVM.CommentModifiedAt = requestedComment.CommentModifiedAt;
+            commentVM.CommentDeletedAt = requestedComment.CommentDeletedAt;
 
+            return View(commentVM);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteComment(Guid id)
+        {
+            var deleteEntry = await _userCommentsServices.DetailAsync(id);
+            if (deleteEntry == null) { return NotFound(); }
+            var commentVM = new UserCommentsIndexViewModel();
+            commentVM.CommentID = deleteEntry.CommentID;
+            commentVM.CommentBody = deleteEntry.CommentBody;
+            commentVM.CommenterUserID = deleteEntry.CommenterUserID;
+            commentVM.CommentedScore = deleteEntry.CommentedScore;
+            commentVM.CommentCreatedAt = deleteEntry.CommentCreatedAt;
+            commentVM.CommentModifiedAt = deleteEntry.CommentModifiedAt;
+            commentVM.CommentDeletedAt = deleteEntry.CommentDeletedAt;
+            return View("DeleteAdmin", commentVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAdminPost(Guid id)
+        {
+            var deleteThisComment = await _userCommentsServices.Delete(id);
+            if (deleteThisComment == null) { return NotFound(); }
+            return RedirectToAction("Index");
         }
     }
 }

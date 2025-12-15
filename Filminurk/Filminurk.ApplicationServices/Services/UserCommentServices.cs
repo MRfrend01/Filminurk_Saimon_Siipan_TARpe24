@@ -1,42 +1,63 @@
-﻿using Filminurk.Core.Domain;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Threading.Tasks;
+using Filminurk.Core.Domain;
 using Filminurk.Core.Dto;
 using Filminurk.Core.ServiceInterface;
 using Filminurk.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Filminurk.ApplicationServices.Services
 {
-    public class UserCommentServices : IUserCommentServices
+    public class UserCommentsServices : IUserCommentServices
     {
         private readonly FilminurkTarpe24Context _context;
-        public UserCommentServices(FilminurkTarpe24Context context)
+
+        public UserCommentsServices(FilminurkTarpe24Context context)
         {
-             
-            _context = context;   
+            _context = context;
         }
 
         public async Task<UserComment> NewComment(UserCommentDTO newcommentDTO)
         {
             UserComment domain = new UserComment();
+
+            domain.CommentID = Guid.NewGuid();
+            domain.CommentBody = newcommentDTO.CommentBody;
+            domain.CommenterUserID = newcommentDTO.CommenterUserID;
+            domain.CommentedScore = (int)newcommentDTO.CommentedScore;
+            domain.CommentCreatedAt = DateTime.Now;
+            domain.CommentModifiedAt = DateTime.Now;
+            domain.IsHelpful = 0;
+            domain.IsHarmful = 0;
+
+            await _context.UserComments.AddAsync(domain);
+            await _context.SaveChangesAsync();
+
+            return domain;
+        }
+
+        public async Task<UserComment> DetailAsync(Guid id)
+        {
+            var returnedComment = await _context.UserComments
+                .FirstOrDefaultAsync(x => x.CommentID == id);
+            return returnedComment;
+        }
+
+        public async Task<UserComment> Delete(Guid id)
+        {
+            var result = await _context.UserComments
+                .FirstOrDefaultAsync(x => x.CommentID == id);
+            if (result != null)
             {
-                domain.CommentID = Guid.NewGuid();
-                domain.CommenterUserID = newcommentDTO.CommenterUserID;
-                domain.CommentBody = newcommentDTO.CommentBody;
-                domain.CommentedScore = (int)newcommentDTO.CommentedScore;
-                domain.CommentCreatedAt = DateTime.UtcNow;
-                domain.CommentModifiedAt = DateTime.UtcNow;
-                domain.IsHelpful = (int)newcommentDTO.IsHelpful;
-                domain.IsHarmful = newcommentDTO.IsHarmful;
-
-                await _context.UserComments.AddAsync(domain);
+                _context.UserComments.Remove(result);
                 await _context.SaveChangesAsync();
-                return domain;
             }
-
+            return result;
+            // todo: send an email to user, that comment was removed, containing original comment.
         }
     }
 }
