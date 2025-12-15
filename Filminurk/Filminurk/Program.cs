@@ -17,6 +17,7 @@ builder.Services.AddDbContext<FilminurkTarpe24Context>(Options => Options.UseSql
 
 
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
