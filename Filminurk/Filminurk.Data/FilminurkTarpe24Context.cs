@@ -19,6 +19,7 @@ namespace Filminurk.Data
         public DbSet<UserComment> UserComments { get; set; }
         public DbSet<Actor> Actors { get; set; } 
         public DbSet<IdentityRole> identityRoles { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     }
 }

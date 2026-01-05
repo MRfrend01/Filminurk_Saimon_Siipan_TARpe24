@@ -13,8 +13,7 @@ builder.Services.AddScoped<IFilesServices, FileServices>();
 builder.Services.AddScoped<IActorServices, ActorServices>();
 builder.Services.AddScoped<IUserCommentServices, UserCommentsServices>();
 builder.Services.AddScoped<IAccountServices, AccountServices>();
-builder.Services.AddScoped<IEmailsServices, EmailsServices>();
-builder.Services.AddDbContext<FilminurkTarpe24Context>(Options => Options.UseSqlServer
+IServiceCollection serviceCollection = builder.Services.AddDbContext<FilminurkTarpe24Context>(Options => Options.UseSqlServer
 (builder.Configuration.GetConnectionString("DefaultConnection")));
 
 

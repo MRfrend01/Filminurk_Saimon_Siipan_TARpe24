@@ -40,7 +40,7 @@
                         </li>
                     </ul>
                     <ul>
-                        @if (SignInManager.IsSignedIn(User))
+                        @if (signInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="FavouriteLists" asp-action="Index">Minu lemmikute nimekirjad</a>
