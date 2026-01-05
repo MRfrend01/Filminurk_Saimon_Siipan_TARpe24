@@ -1,20 +1,20 @@
 ﻿using Filminurk.Core.Domain;
-using Filminurk.Models.Movies;
-using System.ComponentModel.DataAnnotations;
+
+names﻿using Filminurk.Core.Domain;
+using Filminurk.Core.Dto;
 
 namespace Filminurk.Models.FavouriteLists
 {
-    public class FavouriteListsIndexViewModel
+    public class FavouriteListsUserCreateViewModel
     {
-        [Key]
         public Guid FavouriteListID { get; set; }
         public string ListBelongsToUser { get; set; }
         public bool IsMovieOrActor { get; set; } // false = movie, true = actor
         public string ListName { get; set; }
-        public string? ListDescription { get; set; }
+        public string ListDescription { get; set; }
         public bool IsPrivate { get; set; }
-        //public List<Movie>? ListOfMovies { get; set; }
-        //public List<Actor>? ListOfActors { get; set; }
+        public List<Movie> ListOfMovies { get; set; }
+        public List<Actor>? ListOfActors { get; set; }
         public DateTime? ListCreatedAt { get; set; }
         public DateTime? ListModifiedAt { get; set; }
         public DateTime? ListDeletedAt { get; set; }

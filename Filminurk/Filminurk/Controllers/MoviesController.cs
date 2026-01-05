@@ -10,12 +10,12 @@ namespace Filminurk.Controllers
     public class MoviesController : Controller
     {
         
-        private readonly FilminurkTarpe24Context _context;
+        private readonly FilminurkTARpe24Context _context;
         private readonly IMovieServices _movieServices;
         private readonly IFilesServices _filesServices;
         public MoviesController
             (
-            FilminurkTarpe24Context context, 
+            FilminurkTARpe24Context context, 
             IMovieServices movieServices,
             IFilesServices filesServices
             )

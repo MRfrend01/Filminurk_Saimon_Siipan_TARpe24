@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Filminurk.Data.Migrations
 {
-    [DbContext(typeof(FilminurkTarpe24Context))]
+    [DbContext(typeof(FilminurkTARpe24Context))]
     partial class FilminurkTarpe24ContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

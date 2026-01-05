@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Filminurk.Data.Migrations
 {
-    [DbContext(typeof(FilminurkTarpe24Context))]
+    [DbContext(typeof(FilminurkTARpe24Context))]
     [Migration("20251029085140_ttry")]
     partial class ttry
     {

@@ -14,10 +14,10 @@ namespace Filminurk.ApplicationServices.Services
 {
     public class MovieServices : IMovieServices
     {
-        private readonly FilminurkTarpe24Context _context;
+        private readonly FilminurkTARpe24Context _context;
         private readonly IFilesServices _filesServices;
 
-        public MovieServices(FilminurkTarpe24Context context, IFilesServices filesServices)
+        public MovieServices(FilminurkTARpe24Context context, IFilesServices filesServices)
         {
             _context = context;
             _filesServices = filesServices;

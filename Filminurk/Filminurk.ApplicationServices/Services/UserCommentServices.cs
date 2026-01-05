@@ -14,9 +14,9 @@ namespace Filminurk.ApplicationServices.Services
 {
     public class UserCommentsServices : IUserCommentServices
     {
-        private readonly FilminurkTarpe24Context _context;
+        private readonly FilminurkTARpe24Context _context;
 
-        public UserCommentsServices(FilminurkTarpe24Context context)
+        public UserCommentsServices(FilminurkTARpe24Context context)
         {
             _context = context;
         }

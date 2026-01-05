@@ -9,10 +9,10 @@ namespace Filminurk.Controllers
 {
     public class UserCommentsController : Controller
     {
-        private readonly FilminurkTarpe24Context _context;
+        private readonly FilminurkTARpe24Context _context;
         private readonly IUserCommentServices _userCommentsServices;
 
-        public UserCommentsController(FilminurkTarpe24Context context,
+        public UserCommentsController(FilminurkTARpe24Context context,
             IUserCommentServices userCommentsServices
             )
         {

@@ -11,10 +11,10 @@ namespace Filminurk.Controllers
 {
     public class ActorsController : Controller
     {
-        private readonly FilminurkTarpe24Context _context;
+        private readonly FilminurkTARpe24Context _context;
         private readonly IActorServices _actorServices;
 
-        public ActorsController(FilminurkTarpe24Context context, IActorServices actorServices)
+        public ActorsController(FilminurkTARpe24Context context, IActorServices actorServices)
         {
             _context = context;
             _actorServices = actorServices;

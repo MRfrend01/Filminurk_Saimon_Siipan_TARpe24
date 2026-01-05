@@ -13,14 +13,14 @@ namespace Filminurk.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly FilminurkTarpe24Context _context;
+        private readonly FilminurkTARpe24Context _context;
         private readonly IEmailsServices _emailsServices;
 
         public AccountsController
             (
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            FilminurkTarpe24Context context,
+            FilminurkTARpe24Context context,
             IEmailsServices emailsServices
             )
         {

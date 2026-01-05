@@ -16,9 +16,9 @@ namespace Filminurk.ApplicationServices.Services
     public class FileServices : IFilesServices
     {
         private readonly IHostEnvironment _webhost;
-        private readonly FilminurkTarpe24Context _context;
+        private readonly FilminurkTARpe24Context _context;
 
-        public FileServices(IHostEnvironment webhost, FilminurkTarpe24Context context)
+        public FileServices(IHostEnvironment webhost, FilminurkTARpe24Context context)
         {
             _webhost = webhost;
             _context = context;

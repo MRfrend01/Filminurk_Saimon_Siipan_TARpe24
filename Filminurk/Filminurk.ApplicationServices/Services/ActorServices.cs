@@ -13,8 +13,8 @@ namespace Filminurk.ApplicationServices.Services
 {
     public class ActorServices : IActorServices
     {
-        FilminurkTarpe24Context _context;
-        public ActorServices(FilminurkTarpe24Context context)
+        FilminurkTARpe24Context _context;
+        public ActorServices(FilminurkTARpe24Context context)
         {
             _context = context;
         }
