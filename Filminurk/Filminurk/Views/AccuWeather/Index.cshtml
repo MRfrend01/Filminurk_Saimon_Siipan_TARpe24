@@ -1,5 +1,22 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Filminurk.Models.AccuWeather.AccuWeatherSearchViewModel
+
+<h1>Otsi linna ilma</h1>
+
+<div class="container">
+    <form method="post">
+        <div class="container">
+            <div class="from-group col-md-offset-3 col-md-5">
+                <h2>Siit saad ilma otsida soovitud linnast:</h2>
+                <label asp-for="CityName" style="font:arial"></label>
+                <input asp-for="CityName" class="form-control" />
+                <span asp-validation-for="CityName" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="form-group col-md-offset-3 col-md-5">
+
+            </div>
+        </div>
+    </form>
+</div>

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Filminurk.Core.ServiceInterface
 {
-    internal interface IWeatherForecastServices
+    public interface IWeatherForecastServices
     {
+        // method
     }
 }
