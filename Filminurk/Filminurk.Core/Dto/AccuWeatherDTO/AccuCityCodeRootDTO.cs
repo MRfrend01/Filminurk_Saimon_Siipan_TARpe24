@@ -82,7 +82,7 @@ namespace Filminurk.Core.Dto.AccuWeatherDTO
     }
     public class SupplementalAdminArea
     {
-        public int Level { get; set; }
+        public string Level { get; set; } = string.Empty;
         public string LocalizedName { get; set; } = string.Empty;
         public string EnglishName { get; set; } = string.Empty;
     }

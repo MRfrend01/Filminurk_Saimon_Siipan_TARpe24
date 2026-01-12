@@ -40,7 +40,7 @@ namespace Filminurk.Controllers
                         {
                             ImageID = li.ImageID,
                             ListID = li.ListID,
-                            ImageData = li.ImageData,
+                            ImageData = li.ImageData, 
                             ImageTitle = li.ImageTitle,
                             Image = string.Format("data:image/gif;base64,{0}", Convert.ToBase64String(li.ImageData))
                         })
@@ -57,10 +57,9 @@ namespace Filminurk.Controllers
                 .OrderBy(m => m.Title)
                 .Select(mo => new MoviesIndexViewModel
                 {
-                    ID = mo.ID,
+                    Id = mo.Id,
                     Title = mo.Title,
                     FirstPublished = mo.FirstPublished,
-                    Genre = mo.Genre,
                 });
 
             ViewData["allMovies"] = movies;
@@ -95,7 +94,7 @@ namespace Filminurk.Controllers
             var listofmoviestoadd = new List<Movie>();
             foreach (var movieId in tempParse)
             {
-                Movie thismovie = (Movie)_context.Movies.Where(tm => tm.ID == movieId).ToArray().Take(1);
+                Movie thismovie = (Movie)_context.Movies.Where(tm => tm.Id == movieId).ToArray().Take(1);
                 listofmoviestoadd.Add(thismovie);
             }
 
@@ -189,7 +188,7 @@ namespace Filminurk.Controllers
             var result = new List<Guid>();
             foreach (var movie in listOfMovies)
             {
-                result.Add(movie.ID);
+                result.Add(movie.Id);
             }
             return result;
         }

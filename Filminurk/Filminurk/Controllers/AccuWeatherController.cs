@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Filminurk.Core.ServiceInterface;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Filminurk.Controllers
 {

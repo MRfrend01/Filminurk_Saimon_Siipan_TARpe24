@@ -20,6 +20,10 @@ namespace Filminurk.Data
         public DbSet<Actor> Actors { get; set; } 
         public DbSet<IdentityRole> identityRoles { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<FavouriteList> FavouriteLists { get; set; }
+        public DbSet<FileToDatabase> FilesToDatabase { get; set; }
+
+
 
     }
 }

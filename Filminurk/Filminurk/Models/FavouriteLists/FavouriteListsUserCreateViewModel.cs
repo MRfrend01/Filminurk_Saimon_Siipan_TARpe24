@@ -1,6 +1,5 @@
 ﻿using Filminurk.Core.Domain;
-
-names﻿using Filminurk.Core.Domain;
+﻿using Filminurk.Core.Domain;
 using Filminurk.Core.Dto;
 
 namespace Filminurk.Models.FavouriteLists
