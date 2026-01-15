@@ -19,9 +19,9 @@ namespace Filminurk.ApplicationServices.Services
             _context = context;
         }
 
-        public async Task<Actor> Create(ActorDTO dto)
+        public async Task<Actors> Create(ActorDTO dto)
         {
-            Actor actor = new Actor();
+            Actors actor = new Actors();
             actor.ActorID = Guid.NewGuid();
             actor.FirstName = dto.FirstName;
             actor.LastName = dto.LastName;
@@ -35,7 +35,7 @@ namespace Filminurk.ApplicationServices.Services
             return actor;
         }
 
-        public async Task<Actor> Delete(Guid id)
+        public async Task<Actors> Delete(Guid id)
         {
             var result = await _context.Actors.FirstOrDefaultAsync(x => x.ActorID == id);
 
@@ -45,9 +45,9 @@ namespace Filminurk.ApplicationServices.Services
             return result;
         }
 
-        public async Task<Actor> Update(ActorDTO dto)
+        public async Task<Actors> Update(ActorDTO dto)
         {
-            Actor actor = new Actor();
+            Actors actor = new Actors();
             actor.ActorID = dto.ActorID;
             actor.FirstName = dto.FirstName;
             actor.LastName = dto.LastName;

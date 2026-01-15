@@ -15,7 +15,7 @@ namespace Filminurk.Core.Domain
         Romance,
         Documentary
     }
-    public class Actor
+    public class Actors
     {
         public Guid ActorID { get; set; }
         public string FirstName { get; set; }

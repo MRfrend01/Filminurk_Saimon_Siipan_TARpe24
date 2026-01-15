@@ -13,7 +13,7 @@ namespace Filminurk.Models.FavouriteLists
         public string ListDescription { get; set; }
         public bool IsPrivate { get; set; }
         public List<Movie> ListOfMovies { get; set; }
-        public List<Actor>? ListOfActors { get; set; }
+        public List<Core.Domain.Actors>? ListOfActors { get; set; }
         public DateTime? ListCreatedAt { get; set; }
         public DateTime? ListModifiedAt { get; set; }
         public DateTime? ListDeletedAt { get; set; }

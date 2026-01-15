@@ -17,7 +17,7 @@ namespace Filminurk.Core.Dto
         public string? ListDescription { get; set; }
         public bool IsPrivate { get; set; }
         public List<Movie>? ListOfMovies { get; set; }
-        public List<Actor>? ListOfActors { get; set; }
+        public List<Actors>? ListOfActors { get; set; }
         public List<IFormFile> Files { get; set; }
         public IEnumerable<FileToDatabaseDTO> Image { get; set; } = new List<FileToDatabaseDTO>();
         public DateTime ListCreatedAt { get; set; }
